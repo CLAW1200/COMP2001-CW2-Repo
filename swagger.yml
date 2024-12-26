@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  title: "RP Flask REST API"
+  description: "API description"
+  version: "1.0.0"
+servers:
+  - url: "/api"
+    description: "Local server"
+paths:
+  /people:
+    get:
+      operationId: "people.read_all"
+      tags:
+        - "People"
+      summary: "Read all people"
+      responses:
+        "200":
+          description: "Successful operation"
