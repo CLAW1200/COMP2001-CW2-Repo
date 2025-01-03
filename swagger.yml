@@ -1,18 +1,104 @@
 openapi: 3.0.0
 info:
-  title: "RP Flask REST API"
-  description: "API description"
+  title: "Trail API"
+  description: "API for managing trails"
   version: "1.0.0"
 servers:
   - url: "/api"
     description: "Local server"
 paths:
-  /people:
+  /trail:
     get:
-      operationId: "people.read_all"
+      operationId: "trail.read_all"
       tags:
-        - "People"
-      summary: "Read all people"
+        - "Trail"
+      summary: "Show all trails"
       responses:
         "200":
           description: "Successful operation"
+    post:
+      operationId: "trail.create"
+      tags:
+        - "Trail"
+      summary: "Create a new trail"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: string
+                length:
+                  type: number
+                owner_id:
+                  type: integer
+      responses:
+        "201":
+          description: "Trail created"
+        "409":
+          description: "Trail already exists"
+  
+  /trail/{trail_id}:
+    get:
+      operationId: "trail.read_one"
+      tags:
+        - "Trail"
+      summary: "Get trail by ID"
+      parameters:
+        - name: trail_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Successful operation"
+        "404":
+          description: "Trail not found"
+    
+    put:
+      operationId: "trail.update"
+      tags:
+        - "Trail"
+      summary: "Update trail"
+      parameters:
+        - name: trail_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: string
+                length:
+                  type: number
+                owner_id:
+                  type: integer
+      responses:
+        "200":
+          description: "Trail updated"
+        "404":
+          description: "Trail not found"
+    
+    delete:
+      operationId: "trail.delete"
+      tags:
+        - "Trail"
+      summary: "Delete trail"
+      parameters:
+        - name: trail_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Trail deleted"
+        "404":
+          description: "Trail not found"

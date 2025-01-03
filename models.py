@@ -17,22 +17,6 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         sql_session = db.session
 
-class Trail(db.Model):
-    __tablename__ = "trails"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128), nullable=False)
-    length = db.Column(db.Float, nullable=False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    owner = db.relationship("User", backref="trails")
-    locations = db.relationship("Location", backref="trail", cascade="all, delete, delete-orphan", order_by="Location.sequence")
-
-class TrailSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Trail
-        load_instance = True
-        sql_session = db.session
-        include_fk = True
-
 class Location(db.Model):
     __tablename__ = "locations"
     id = db.Column(db.Integer, primary_key=True)
@@ -46,4 +30,21 @@ class LocationSchema(ma.SQLAlchemyAutoSchema):
         model = Location
         load_instance = True
         sql_session = db.session
-        include_fk = True    
+        include_fk = True
+
+class Trail(db.Model):
+    __tablename__ = "trails"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
+    length = db.Column(db.Float, nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    owner = db.relationship("User", backref="trail")
+    locations = db.relationship("Location", backref="trail", cascade="all, delete, delete-orphan", order_by="Location.sequence")
+
+class TrailSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Trail
+        load_instance = True
+        sql_session = db.session
+        include_fk = True
+
