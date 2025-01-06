@@ -22,6 +22,7 @@ paths:
         - "Trail"
       summary: "Create a new trail"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -102,3 +103,242 @@ paths:
           description: "Trail deleted"
         "404":
           description: "Trail not found"
+
+  /user:
+    get:
+      operationId: "user.read_all"
+      tags:
+        - "User"
+      summary: "Show all users"
+      responses:
+        "200":
+          description: "Successful operation"
+    post:
+      operationId: "user.create"
+      tags:
+        - "User"
+      summary: "Create a new user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: "User created"
+        "409":
+          description: "User already exists"
+
+  /user/{user_id}:
+    get:
+      operationId: "user.read_one"
+      tags:
+        - "User"
+      summary: "Get user by ID"
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Successful operation"
+        "404":
+          description: "User not found"
+    
+    put:
+      operationId: "user.update"
+      tags:
+        - "User"
+      summary: "Update user"
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: "User updated"
+        "404":
+          description: "User not found"
+    
+    delete:
+      operationId: "user.delete"
+      tags:
+        - "User"
+      summary: "Delete user"
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "User deleted"
+        "404":
+          description: "User not found"
+
+  /location:
+    get:
+      operationId: "location.read_all"
+      tags:
+        - "Location"
+      summary: "Show all locations"
+      responses:
+        "200":
+          description: "Successful operation"
+    post:
+      operationId: "location.create"
+      tags:
+        - "Location"
+      summary: "Create a new location"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+                sequence:
+                  type: integer
+                trail_id:
+                  type: integer
+      responses:
+        "201":
+          description: "Location created"
+
+  /location/{location_id}:
+    get:
+      operationId: "location.read_one"
+      tags:
+        - "Location"
+      summary: "Get location by ID"
+      parameters:
+        - name: location_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Successful operation"
+        "404":
+          description: "Location not found"
+    
+    put:
+      operationId: "location.update"
+      tags:
+        - "Location"
+      summary: "Update location"
+      parameters:
+        - name: location_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+                sequence:
+                  type: integer
+                trail_id:
+                  type: integer
+      responses:
+        "200":
+          description: "Location updated"
+        "404":
+          description: "Location not found"
+    
+    delete:
+      operationId: "location.delete"
+      tags:
+        - "Location"
+      summary: "Delete location"
+      parameters:
+        - name: location_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Location deleted"
+        "404":
+          description: "Location not found"
+
+  /auth:
+    post:
+      operationId: "user.auth_user"
+      tags:
+        - "Auth"
+      summary: "Authenticate user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: "Authentication successful"
+        "401":
+          description: "Authentication failed"
+
+components:
+  schemas:
+    Trail:
+      type: object
+      properties:
+        name:
+          type: string
+        length:
+          type: number
+        owner_id:
+          type: integer
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
